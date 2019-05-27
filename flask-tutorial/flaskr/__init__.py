@@ -31,6 +31,14 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+    
+    from . import db
+    db.init_app(app)
+    
+    from . import auth
+    app.register_blueprint(auth.bp)
+
+    return app
 
     # a simple page that says hello
     @app.route('/hello')
@@ -48,5 +56,6 @@ def create_app(test_config=None):
             return "Values:", fname
         '''
         return 'Hello, World!'
+    
 
     return app
