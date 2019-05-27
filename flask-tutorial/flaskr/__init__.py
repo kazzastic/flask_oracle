@@ -43,18 +43,6 @@ def create_app(test_config=None):
     # a simple page that says hello
     @app.route('/hello')
     def hello():
-        '''
-        connection = cx_Oracle.connect("hr", "hr", "")
-        cursor = connection.cursor()
-        cursor.execute("""
-            SELECT first_name
-            FROM employees
-            WHERE department_id = :did AND employee_id > :eid""",
-            did = 50,
-            eid = 190)
-        for fname in cursor:
-            return "Values:", fname
-        '''
         return 'Hello, World!'
     
 

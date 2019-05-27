@@ -5,7 +5,6 @@ Created on Mon May 27 22:43:56 2019
 
 @author: kazzastic
 """
-
 import functools
 
 from flask import (
@@ -82,11 +81,11 @@ def load_logged_in_user():
             'SELECT * FROM user WHERE id = ?', (user_id,)
         ).fetchone()
         
+
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index')
-                    
+    return redirect(url_for('index'))
 
 def login_required(view):
     @functools.wraps(view)
