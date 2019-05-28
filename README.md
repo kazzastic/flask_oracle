@@ -12,7 +12,11 @@ pip install Flask
 
 
 ___
-
+```bash
+export FLASK_APP=flaskr
+export FLASK_ENV=development
+flask run
+```
 
 Not required but oracle db can be connected using this
 ```python 
