@@ -8,7 +8,6 @@ Created on Fri May 31 04:58:59 2019
 
 import cx_Oracle
 import click
-from flask import current_app, g
 from flask.cli import with_appcontext
 
 

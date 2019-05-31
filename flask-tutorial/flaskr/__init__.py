@@ -7,7 +7,6 @@ Created on Mon May 27 18:47:44 2019
 """
 from __future__ import print_function
 import os
-import cx_Oracle
 from flask import Flask
 
 
@@ -41,13 +40,5 @@ def create_app(test_config=None):
     from . import blog
     app.register_blueprint(blog.bp)
     app.add_url_rule('/', endpoint='index')
-
-    return app
-
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
-    
 
     return app
