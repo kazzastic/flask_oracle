@@ -8,6 +8,7 @@ Created on Fri May 31 04:58:59 2019
 
 import cx_Oracle
 import click
+from flask import current_app, g
 from flask.cli import with_appcontext
 
 
@@ -26,8 +27,8 @@ def close_db(e=None):
         
 def init_db():
     db = get_db()
-    db.execute('CREATE TABLE used(ID   INT              NOT NULL,NAME VARCHAR (20)     NOT NULL,PASSWORD VARCHAR(10)  NOT NULL,    PRIMARY KEY (ID))')
-    db.execute('CREATE TABLE posted(id    INT              NOT NUll,author_id INT          NOT NULL,title VARCHAR(10)     NOT NULL,body VARCHAR(10)      NOT NULL,FOREIGN KEY(author_id) REFERENCES use(id))')
+    db.execute('CREATE TABLE usee(ID   INT              NOT NULL,NAME VARCHAR (20)     NOT NULL,PASSWORD VARCHAR(10)  NOT NULL,    PRIMARY KEY (ID))')
+    db.execute('CREATE TABLE post(id    INT              NOT NUll,author_id INT          NOT NULL,title VARCHAR(10)     NOT NULL,body VARCHAR(10)      NOT NULL,FOREIGN KEY(author_id) REFERENCES use(id))')
 
 @click.command('init-db')
 @with_appcontext
@@ -38,4 +39,4 @@ def init_db_command():
     
 def init_app(app):
     app.teardown_appcontext(close_db)
-#    app.cli.add_command(init_db_command)
+    app.cli.add_command(init_db_command)

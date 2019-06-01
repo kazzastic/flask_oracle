@@ -7,7 +7,7 @@ Created on Fri May 31 11:53:37 2019
 """
 
 import functools
-
+import cx_Oracle
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
@@ -22,24 +22,21 @@ def register():
     if request.method == 'POST':
         name = request.form['username']
         password = request.form['password']
-        db = get_db()
+        i = request.form['i']
         error = None
-
+        con = cx_Oracle.connect("hr", "hr", "")
+        db = con.cursor()
+        
         if not name:
             error = 'Username is required.'
         elif not password:
             error = 'Password is required.'
-        elif db.execute(
-            'SELECT id FROM use WHERE name = ?', (name,)
-        ).fetchone() is not None:
-            error = 'User {} is already registered.'.format(name)
 
         if error is None:
             db.execute(
-                'INSERT INTO use (name, password) VALUES (?, ?)',
-                (name, generate_password_hash(password))
-            )
-            db.commit()
+                'INSERT INTO usee (id, name, password) VALUES (:id ,:name, :password)',
+                {"id": i ,"name":name, "password":password})
+            con.commit()
             return redirect(url_for('auth.login'))
 
         flash(error)
