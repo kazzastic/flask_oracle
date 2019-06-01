@@ -15,8 +15,10 @@ pip install cx_Oracle
 
 - The rest of oracle cx_oracle has been seen from various documentations mainly [here](https://cx-oracle.readthedocs.io/en/latest/cursor.html)
 
-- To run the server
+
 #Linux
+
+- To run the server
 ___
 ```bash
 export FLASK_APP=flaskr
