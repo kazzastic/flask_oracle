@@ -50,17 +50,18 @@ def login():
         db = get_db()
         error = None
         user = db.execute(
-            'SELECT * FROM user WHERE name = ?', (name,)
+            'SELECT * FROM usee WHERE name = :name', 
+            {"name":name}
         ).fetchone()
 
         if user is None:
             error = 'Incorrect username.'
-        elif not check_password_hash(user['password'], password):
+        elif not user[2] == password:
             error = 'Incorrect password.'
 
         if error is None:
             session.clear()
-            session['user_id'] = user['id']
+            #session['user_id'] = user['id']
             return redirect(url_for('index'))
 
         flash(error)
