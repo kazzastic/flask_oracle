@@ -20,7 +20,7 @@ bp = Blueprint('blog', __name__)
 def index():
     db = get_db()
     posts = db.execute(
-        'SELECT p.id, title, body, created, author_id, name FROM post p JOIN usee u ON p.author_id = u.id ORDER BY created DESC'
+        'SELECT p.id, title, body, author_id, name FROM post p JOIN usee u ON p.author_id = u.id ORDER BY p.id DESC'
     ).fetchall()
     return render_template('blog/index.html', posts=posts)
 
@@ -42,8 +42,8 @@ def create():
         else:
             db = get_db()
             db.execute(
-                'INSERT INTO post (id ,title, body, author_id) VALUES (:id,:title, :body, :author_id)',
-                {"id":"1","title":title, "body":body, "author_id":"1"})
+                'INSERT INTO post (id , author_id, title, body) VALUES (:id,:author_id, :title, :body)',
+                {"id":'2',"author_id":'1', "title":title, "body":body})
             conn.commit()
             return redirect(url_for('blog.index'))
 
@@ -51,7 +51,7 @@ def create():
 
 def get_post(id, check_author=True):
     post = get_db().execute(
-        'SELECT p.id, title, body, created, author_id, name'
+        'SELECT p.id, author_id, title, body, name'
         ' FROM post p JOIN usee u ON p.author_id = u.id'
         ' WHERE p.id = :id',
         {"id":id}

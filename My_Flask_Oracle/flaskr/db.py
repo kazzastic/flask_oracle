@@ -28,9 +28,9 @@ def close_db(e=None):
 def init_db():
     db = get_db()
     db.execute('DROP TABLE usee cascade constraints')
-    #db.execute('DROP TABLE post')
+    db.execute('DROP TABLE post')
     db.execute('CREATE TABLE usee(ID   INT              NOT NULL PRIMARY KEY,NAME VARCHAR (20)     NOT NULL,PASSWORD VARCHAR(10)  NOT NULL)')
-    db.execute('CREATE TABLE post(id    INT              NOT NUll, author_id INT          NOT NULL,created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,title VARCHAR(10)     NOT NULL,body VARCHAR(100)      NOT NULL,FOREIGN KEY(author_id) REFERENCES usee(id))')
+    db.execute('CREATE TABLE post(id    INT              NOT NUll, author_id INT          NOT NULL,title VARCHAR(30)     NOT NULL,body VARCHAR(100)      NOT NULL,FOREIGN KEY(author_id) REFERENCES usee(id))')
 
 @click.command('init-db')
 @with_appcontext
