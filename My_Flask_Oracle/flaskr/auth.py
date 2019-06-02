@@ -57,11 +57,11 @@ def login():
         if user is None:
             error = 'Incorrect username.'
         elif not user[2] == password:
-            error = 'Incorrect password.'
+            error = 'You Bastard.'
 
         if error is None:
             session.clear()
-            #session['user_id'] = user['id']
+            session['user_id'] = user[0]
             return redirect(url_for('index'))
 
         flash(error)
@@ -70,13 +70,14 @@ def login():
 
 @bp.before_app_request
 def load_logged_in_user():
-    user_id = session.get('use_id')
+    user_id = session.get('user_id')
 
     if user_id is None:
         g.user = None
     else:
         g.user = get_db().execute(
-            'SELECT * FROM use WHERE id = ?', (user_id,)
+            'SELECT * FROM usee WHERE id = :id', 
+            {"id":user_id}
         ).fetchone()
         
 @bp.route('/logout')
