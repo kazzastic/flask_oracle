@@ -53,15 +53,15 @@ def get_post(id, check_author=True):
     post = get_db().execute(
         'SELECT p.id, title, body, created, author_id, name'
         ' FROM post p JOIN usee u ON p.author_id = u.id'
-        ' WHERE p.id = ?',
-        (id,)
+        ' WHERE p.id = :id',
+        {"id":id}
     ).fetchone()
 
     if post is None:
         abort(404, "Post id {0} doesn't exist.".format(id))
 
-    if check_author and post['author_id'] != g.user['id']:
-        abort(403)
+    #if check_author and post[4] != g.user[0]:
+     #   abort(403)
 
     return post
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
@@ -73,7 +73,7 @@ def update(id):
         title = request.form['title']
         body = request.form['body']
         error = None
-
+        conn = cx_Oracle.connect("hr", "hr", "")
         if not title:
             error = 'Title is required.'
 
@@ -82,11 +82,11 @@ def update(id):
         else:
             db = get_db()
             db.execute(
-                'UPDATE post SET title = ?, body = ?'
-                ' WHERE id = ?',
-                (title, body, id)
+                'UPDATE post SET title = :title, body = :body'
+                ' WHERE id = :id',
+                {"title":title, "body":body, "id":id}
             )
-            db.commit()
+            conn.commit()
             return redirect(url_for('blog.index'))
 
     return render_template('blog/update.html', post=post)
@@ -95,7 +95,8 @@ def update(id):
 @login_required
 def delete(id):
     get_post(id)
+    conn = cx_Oracle.connect("hr", "hr", "")
     db = get_db()
-    db.execute('DELETE FROM post WHERE id = ?', (id,))
-    db.commit()
+    db.execute('DELETE FROM post WHERE id = :id', {"id":id})
+    conn.commit()
     return redirect(url_for('blog.index'))
